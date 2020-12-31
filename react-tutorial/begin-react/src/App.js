@@ -4,6 +4,7 @@ import HelloWithProps from './HelloProps';
 import './App.css';
 import Wrapper from './Wrapper'; //아래서 바로쓰면 자동으로 import됨
 import HelloWithCondition from './HelloCondition';
+import Counter from './Counter';
 
 function App() {
   const name = 'react';
@@ -41,6 +42,12 @@ function App() {
       {/* 조건부 렌더링 */}
       <HelloWithCondition name="react" color="red" isSpecial={true}/>
       {/* <HelloWithCondition name="react" color="red" isSpecial /> */}
+      </>
+
+      <>
+      {/* useState를 통해 컴포넌트에서 바뀌는 값 - counter로 실습*/}
+      <Counter />
+        
       </>
     </div>
   );

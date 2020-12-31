@@ -3,6 +3,7 @@ import Hello from './Hello'; //상대경로(.js 생략가능)
 import HelloWithProps from './HelloProps';
 import './App.css';
 import Wrapper from './Wrapper'; //아래서 바로쓰면 자동으로 import됨
+import HelloWithCondition from './HelloCondition';
 
 function App() {
   const name = 'react';
@@ -15,6 +16,7 @@ function App() {
   return (
     <div>
       <>
+       {/* JSX */}
        {/* 어쩌고저쩌고 */} 
        <Hello 
             // 이런식으로도 주석 달기 가능
@@ -33,6 +35,12 @@ function App() {
         <HelloWithProps name="react" color="red"/>
         <HelloWithProps color="pink"/>
       </Wrapper>
+      </>
+
+      <>
+      {/* 조건부 렌더링 */}
+      <HelloWithCondition name="react" color="red" isSpecial={true}/>
+      {/* <HelloWithCondition name="react" color="red" isSpecial /> */}
       </>
     </div>
   );

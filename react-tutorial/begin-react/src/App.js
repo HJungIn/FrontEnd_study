@@ -1,6 +1,8 @@
 import React from 'react';
 import Hello from './Hello'; //상대경로(.js 생략가능)
+import HelloWithProps from './HelloProps';
 import './App.css';
+import Wrapper from './Wrapper'; //아래서 바로쓰면 자동으로 import됨
 
 function App() {
   const name = 'react';
@@ -21,6 +23,16 @@ function App() {
       <div>안녕히 계세요</div>
       <div style={style}>{name}</div>
       <div className="gray-box"></div>
+      </>
+
+      <>
+      {/* props */}
+      <HelloWithProps name="react" color="red"/>
+      <HelloWithProps color="pink"/>
+      <Wrapper > 
+        <HelloWithProps name="react" color="red"/>
+        <HelloWithProps color="pink"/>
+      </Wrapper>
       </>
     </div>
   );

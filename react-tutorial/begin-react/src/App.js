@@ -6,6 +6,7 @@ import Wrapper from './Wrapper'; //아래서 바로쓰면 자동으로 import됨
 import HelloWithCondition from './HelloCondition';
 import Counter from './Counter';
 import InputSample from './InputSample';
+import InputSampleMulti from './InputSampleMulti';
 
 function App() {
   const name = 'react';
@@ -53,6 +54,10 @@ function App() {
       <>
       {/* 리액트에서 input 상태 관리하기 */}
       <InputSample />
+
+      {/* 여러개의 input 상태 관리하기 */}
+      <InputSampleMulti />
+
       </>
 
     </div>

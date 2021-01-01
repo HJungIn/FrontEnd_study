@@ -1,4 +1,4 @@
-import React, {useRef, useState, useMemo} from 'react';
+import React, {useRef, useState, useMemo, useCallback} from 'react';
 import Hello from './Hello'; //상대경로(.js 생략가능)
 import HelloWithProps from './HelloProps';
 import './App.css';
@@ -45,7 +45,14 @@ function App() {
   // ];
   ]);
   const nextId = useRef(4); //useRef로 users의 id값을 저장해준다. ( 어떠한 변수를 기억하고 싶을 때 사용 ) => 리렌더링 필요x : 리렌더링 해도 계속 기억된다.
-  const onCreate = () => {
+  
+  const [inputs, setInputs] = useState({ // 배열에 항목 추가하기
+    username: '',
+    email: ''
+  });
+  const { username, email } = inputs;
+  
+  const onCreate = useCallback(() => {
 
     const user = {
       id: nextId.current,
@@ -61,35 +68,30 @@ function App() {
     });
     console.log(nextId.current); //4
     nextId.current += 1; // 이 값이 바뀐다고 해도 리렌더링이 되지 않는다.
-  }
+  }, [username, email, users]);
 
-  const [inputs, setInputs] = useState({ // 배열에 항목 추가하기
-    username: '',
-    email: ''
-  });
-  const { username, email } = inputs;
-  const onChange = e => {
+  const onChange = useCallback(e => { //useCallback사용
     const { name, value } = e.target;
     setInputs({
       ...inputs,
       [name]: value
     });
-  };
+  }, [inputs]); //inputs를 사용하니 넣어줘야함  => inputs가 변화될 때만 이 함수가 사용됨 =>만약에 이 값ㅇ르 넣지 않으면 해당값을 사용할 때 가장 최신값이 아닌 옛날 상태를 참조하게 될 수 있다.
 
   //불변성을 지키며 업데이트 해준다 : filter => 추출 후 새로운 객체를 만들어준다.
-  const onRemove = id => {
+  const onRemove = useCallback(id => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인 것을 제거함
     setUsers(users.filter(user => user.id !== id));
-  };
+  }, [users]);
 
-  const onToggle = id =>{ //배열 안에 있는 원소를 업데이트 할 때는 map 함수로 구현가능하다.
+  const onToggle = useCallback(id =>{ //배열 안에 있는 원소를 업데이트 할 때는 map 함수로 구현가능하다.
     setUsers(users.map(
       user => user.id === id
         ? {...user, active: !user.active} //user값을 받아서 active값만 바꿔준다. => 덮어씌우기x 새 객체 만들어서 지정하기 o =>불변성 유지
         : user
     ));
-  };
+  }, [users]);
 
   function countActiveUsers(users) {
     console.log('활성 사용자 수를 세는중...');

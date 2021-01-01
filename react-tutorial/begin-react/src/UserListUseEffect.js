@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-function User({ user, onRemove, onToggle }) {
+const User = React.memo( function User({ user, onRemove, onToggle }) {
     // useEffect : 첫번째 파라미터는 함수를 등록하고, 2번째 파라미터는 deps(의존변수,함수)를 등록한다.
   /*
     useEffect(() => {
@@ -42,7 +42,7 @@ function User({ user, onRemove, onToggle }) {
       <button onClick={() => onRemove(user.id)}>삭제</button>
     </div>
   );
-}
+}); //props가 바뀌었을 때만 리렌더링 해준다.
 
 function UserListUseEffect({ users, onRemove, onToggle }) {
   return (
@@ -59,4 +59,4 @@ function UserListUseEffect({ users, onRemove, onToggle }) {
   );
 }
 
-export default UserListUseEffect;
+export default React.memo(UserListUseEffect); //props가 바뀌었을 때만 리렌더링 해준다.

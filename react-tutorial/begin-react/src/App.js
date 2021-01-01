@@ -100,6 +100,32 @@ function App() {
   // const count = countActiveUsers(users); // useMemo를 안쓰면 리렌더링(input에 글 쓸때마다) 될 때마다 활성사용자 수를 센다.
   const count = useMemo( ()=>countActiveUsers(users), [users]); //useMemo : 특정 값이 바뀌었을 때만 특정 함수를 실행해 값을 받는다.(필요한 연산을 필요할 때만 사용) => 첫번째 파라미터는 함수형태여야함, 두번째 파라미터는 deps(바꿀 변수)여야함 : 2번째에 넣은 값이 변해야만 이 1번째함수를 실행해 주겠다.
 
+  //React.memo 중 users가 바뀔때마다 함수가 실행된다고 하면 users를 바꿀때마다 모든 함수가 리렌더링 되기 때문에 users를 deps에 넣지 않도록 한다.
+  const onCreateReactMemo = useCallback(() => {
+    const user = {
+      id: nextId.current,
+      username,
+      email
+    }
+    setUsers(users => users.concat(user));
+    setInputs({
+      username: '',
+      email: ''
+    });
+    console.log(nextId.current); 
+    nextId.current += 1; 
+  }, [username, email]);
+  const onRemoveReactMemo = useCallback(id => {
+    setUsers(users => users.filter(user => user.id !== id));
+  }, []);
+  const onToggleReactMemo = useCallback(id =>{ //배열 안에 있는 원소를 업데이트 할 때는 map 함수로 구현가능하다.
+    setUsers(users => users.map(
+      user => user.id === id
+        ? {...user, active: !user.active} //user값을 받아서 active값만 바꿔준다. => 덮어씌우기x 새 객체 만들어서 지정하기 o =>불변성 유지
+        : user
+    ));
+  }, []);
+
   return (
     <div>
       <>
@@ -188,6 +214,17 @@ function App() {
       <>
       {/* useMemo 를 사용하여 연산한 값 재사용하기 */}
       <div>활성사용자 수 : {count}</div> 
+      </>
+
+      <>
+      {/* React.memo 를 사용한 컴포넌트 리렌더링 방지 */}
+      <CreateUser 
+        username={username} 
+        email={email} 
+        onChange={onChange} 
+        onCreate={onCreateReactMemo}
+      />
+      <UserListUseEffect users={users} onRemove={onRemoveReactMemo} onToggle={onToggleReactMemo}/>
       </>
     </div>
   );

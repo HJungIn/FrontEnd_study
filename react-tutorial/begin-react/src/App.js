@@ -26,17 +26,20 @@ function App() {
     {
       id: 1,
       username: 'velopert',
-      email: 'public.velopert@gmail.com'
+      email: 'public.velopert@gmail.com',
+      active: true
     },
     {
       id: 2,
       username: 'tester',
-      email: 'tester@example.com'
+      email: 'tester@example.com',
+      active: false
     },
     {
       id: 3,
       username: 'liz',
-      email: 'liz@example.com'
+      email: 'liz@example.com',
+      active: false
     }
   // ];
   ]);
@@ -77,6 +80,14 @@ function App() {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인 것을 제거함
     setUsers(users.filter(user => user.id !== id));
+  };
+
+  const onToggle = id =>{ //배열 안에 있는 원소를 업데이트 할 때는 map 함수로 구현가능하다.
+    setUsers(users.map(
+      user => user.id === id
+        ? {...user, active: !user.active} //user값을 받아서 active값만 바꿔준다. => 덮어씌우기x 새 객체 만들어서 지정하기 o =>불변성 유지
+        : user
+    ));
   };
 
   return (
@@ -138,7 +149,7 @@ function App() {
       </>
 
       <>
-      {/* 배열 항목 추가하기*/}
+      {/* 배열 항목 추가하기 : concat*/}
       <CreateUser 
         username={username} 
         email={email} 
@@ -149,15 +160,16 @@ function App() {
       </>
 
       <>
-      {/* 배열 항목 제거하기 */}
+      {/* 배열 항목 제거하기 : filter + 배열 항목 수정하기 : map */}
       <CreateUser 
         username={username} 
         email={email} 
         onChange={onChange} 
         onCreate={onCreate}
       />
-      <UserListArray users={users} onRemove={onRemove} />
+      <UserListArray users={users} onRemove={onRemove} onToggle={onToggle}/>
       </>
+
     </div>
   );
 }

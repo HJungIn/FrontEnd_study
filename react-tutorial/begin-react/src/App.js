@@ -11,6 +11,7 @@ import InputSampleUseRef from './InputSampleUseRef';
 import UserList from './UserList';
 import UserListUseRef from './UserListUseRef';
 import CreateUser from './CreateUser';
+import UserListArray from './UserListArray';
 
 function App() {
   const name = 'react';
@@ -69,6 +70,13 @@ function App() {
       ...inputs,
       [name]: value
     });
+  };
+
+  //불변성을 지키며 업데이트 해준다 : filter => 추출 후 새로운 객체를 만들어준다.
+  const onRemove = id => {
+    // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
+    // = user.id 가 id 인 것을 제거함
+    setUsers(users.filter(user => user.id !== id));
   };
 
   return (
@@ -138,6 +146,17 @@ function App() {
         onCreate={onCreate}
       />
       <UserListUseRef users={users}/>
+      </>
+
+      <>
+      {/* 배열 항목 제거하기 */}
+      <CreateUser 
+        username={username} 
+        email={email} 
+        onChange={onChange} 
+        onCreate={onCreate}
+      />
+      <UserListArray users={users} onRemove={onRemove} />
       </>
     </div>
   );

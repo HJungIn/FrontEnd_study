@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Hello from './Hello'; //상대경로(.js 생략가능)
 import HelloWithProps from './HelloProps';
 import './App.css';
@@ -9,6 +9,7 @@ import InputSample from './InputSample';
 import InputSampleMulti from './InputSampleMulti';
 import InputSampleUseRef from './InputSampleUseRef';
 import UserList from './UserList';
+import UserListUseRef from './UserListUseRef';
 
 function App() {
   const name = 'react';
@@ -18,6 +19,28 @@ function App() {
     fontSize: 24,
     padding: '1rem'
   };
+  const users = [
+    {
+      id: 1,
+      username: 'velopert',
+      email: 'public.velopert@gmail.com'
+    },
+    {
+      id: 2,
+      username: 'tester',
+      email: 'tester@example.com'
+    },
+    {
+      id: 3,
+      username: 'liz',
+      email: 'liz@example.com'
+    }
+  ];
+  const nextId = useRef(4); //useRef로 users의 id값을 저장해준다. ( 어떠한 변수를 기억하고 싶을 때 사용 ) => 리렌더링 필요x : 리렌더링 해도 계속 기억된다.
+  const onCreate = () => {
+    console.log(nextId.current); //4
+    nextId.current += 1; // 이 값이 바뀐다고 해도 리렌더링이 되지 않는다.
+  }
   return (
     <div>
       <>
@@ -71,6 +94,10 @@ function App() {
       <UserList />
       </>
 
+      <>
+      {/* useRef로 useRef로 컴포넌트 안의 변수 만들기 */}
+      <UserListUseRef users={users}/>
+      </>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import HelloWithCondition from './HelloCondition';
 import Counter from './Counter';
 import InputSample from './InputSample';
 import InputSampleMulti from './InputSampleMulti';
+import InputSampleUseRef from './InputSampleUseRef';
 
 function App() {
   const name = 'react';
@@ -57,8 +58,13 @@ function App() {
 
       {/* 여러개의 input 상태 관리하기 */}
       <InputSampleMulti />
-
       </>
+
+      <>
+      {/* useRef로 특정 DOM 선택하기 */}
+      <InputSampleUseRef />
+      </>
+
 
     </div>
   );

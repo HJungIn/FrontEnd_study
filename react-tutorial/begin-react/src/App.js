@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useMemo} from 'react';
 import Hello from './Hello'; //상대경로(.js 생략가능)
 import HelloWithProps from './HelloProps';
 import './App.css';
@@ -91,6 +91,13 @@ function App() {
     ));
   };
 
+  function countActiveUsers(users) {
+    console.log('활성 사용자 수를 세는중...');
+    return users.filter(user => user.active).length; // user의 active가 true인 user의 수를 센다.
+  }
+  // const count = countActiveUsers(users); // useMemo를 안쓰면 리렌더링(input에 글 쓸때마다) 될 때마다 활성사용자 수를 센다.
+  const count = useMemo( ()=>countActiveUsers(users), [users]); //useMemo : 특정 값이 바뀌었을 때만 특정 함수를 실행해 값을 받는다.(필요한 연산을 필요할 때만 사용) => 첫번째 파라미터는 함수형태여야함, 두번째 파라미터는 deps(바꿀 변수)여야함 : 2번째에 넣은 값이 변해야만 이 1번째함수를 실행해 주겠다.
+
   return (
     <div>
       <>
@@ -174,6 +181,11 @@ function App() {
       <>
       {/* useEffect를 사용하여 마운트/언마운트/업데이트시 할 작업 설정하기 */}
       <UserListUseEffect users={users} onRemove={onRemove} onToggle={onToggle}/>
+      </>
+
+      <>
+      {/* useMemo 를 사용하여 연산한 값 재사용하기 */}
+      <div>활성사용자 수 : {count}</div> 
       </>
     </div>
   );

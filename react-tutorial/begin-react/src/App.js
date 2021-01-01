@@ -12,6 +12,7 @@ import UserList from './UserList';
 import UserListUseRef from './UserListUseRef';
 import CreateUser from './CreateUser';
 import UserListArray from './UserListArray';
+import UserListUseEffect from './UserListUseEffect';
 
 function App() {
   const name = 'react';
@@ -170,6 +171,10 @@ function App() {
       <UserListArray users={users} onRemove={onRemove} onToggle={onToggle}/>
       </>
 
+      <>
+      {/* useEffect를 사용하여 마운트/언마운트/업데이트시 할 작업 설정하기 */}
+      <UserListUseEffect users={users} onRemove={onRemove} onToggle={onToggle}/>
+      </>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import Counter from './Counter';
 import InputSample from './InputSample';
 import InputSampleMulti from './InputSampleMulti';
 import InputSampleUseRef from './InputSampleUseRef';
+import UserList from './UserList';
 
 function App() {
   const name = 'react';
@@ -65,6 +66,10 @@ function App() {
       <InputSampleUseRef />
       </>
 
+      <>
+      {/* 배열 렌더링 하기*/}
+      <UserList />
+      </>
 
     </div>
   );

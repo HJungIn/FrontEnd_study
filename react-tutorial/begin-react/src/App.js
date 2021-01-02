@@ -1,4 +1,4 @@
-import React, {useRef, useState, useMemo, useCallback, useReducer} from 'react';
+import React, {useRef, useState, useMemo, useCallback, useReducer, createContext} from 'react';
 import Hello from './Hello'; //상대경로(.js 생략가능)
 import HelloWithProps from './HelloProps';
 import './App.css';
@@ -15,6 +15,8 @@ import UserListArray from './UserListArray';
 import UserListUseEffect from './UserListUseEffect';
 import CounterUseReducer from './CounterUseReducer';
 import useInputs from './useInputs';
+import ContextSample from './ContextSample';
+import UserListContext from './UserListContext';
 
 const initialState = { //App 컴포넌트를 useReducer 로 구현하기
   inputs: {
@@ -73,6 +75,9 @@ function reducer(state, action) {
       return state;
   }
 }
+
+//Context API를 통한 전역값 관리 : dispatch Context만들기
+export const UserDispatch = createContext(null);
 
 function App() {
   const name = 'react';
@@ -354,7 +359,7 @@ function App() {
         onChange={onChange} 
         onCreate={onCreateReactMemo}
       />
-      <UserListUseEffect users={users} onRemove={onRemoveReactMemo} onToggle={onToggleReactMemo}/>
+      <UserListUseEffect users={users}/>
       </>
 
       <>
@@ -374,6 +379,21 @@ function App() {
 
       <>
       {/* custom Hook 만들기 */}
+      </>
+
+      <>
+      {/* Context API 를 사용한 전역 값 관리 */}
+      <ContextSample />
+
+      <UserDispatch.Provider value={dispatch}>
+        <CreateUser 
+          username={usernameUseReduce} 
+          email={emailUseReduce} 
+          onChange={onChangeUseReduce} 
+          onCreate={onCreateUseReduce} // 여기에 username 설정이 reduce가 안붙어서 create는 잘 안됨
+        />
+        <UserListContext users={state.users}/>
+      </UserDispatch.Provider>
       </>
     </div>
   );

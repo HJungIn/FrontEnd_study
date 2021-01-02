@@ -14,6 +14,7 @@ import CreateUser from './CreateUser';
 import UserListArray from './UserListArray';
 import UserListUseEffect from './UserListUseEffect';
 import CounterUseReducer from './CounterUseReducer';
+import useInputs from './useInputs';
 
 const initialState = { //App 컴포넌트를 useReducer 로 구현하기
   inputs: {
@@ -223,6 +224,38 @@ function App() {
     });
   }, []);
 
+  //custom Hook
+  const [form, onChangeCustom, resetCustom] = useInputs({
+    username: '',
+    email: ''
+  });
+  const {usernameCustom, emailCustom} = form;
+  const onCreateCustom = useCallback(() => {
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        usernameCustom,
+        emailCustom
+      }
+    });
+    nextId.current += 1;
+    resetCustom();
+  }, [usernameCustom, emailCustom, resetCustom]);
+  const onToggleCustom = useCallback(id => {
+    dispatch({
+      type: 'TOGGLE_USER',
+      id
+    });
+  }, []);
+
+  const onRemoveCustom = useCallback(id => {
+    dispatch({
+      type: 'REMOVE_USER',
+      id
+    });
+  }, []);
+
   return (
     <div>
       <>
@@ -337,8 +370,10 @@ function App() {
       />
       <UserListUseEffect users={state.users} onRemove={onRemoveUseReduce} onToggle={onToggleUseReduce}/>
       {/* <UserListUseEffect users={usersUseReduce} onRemove={onRemoveUseReduce} onToggle={onToggleUseReduce}/> <= 이게 원래 정석인데 현재 코드에서는 안돌아감.. 너무 합쳐져 있어서 그럴수도*/}
-      
+      </>
 
+      <>
+      {/* custom Hook 만들기 */}
       </>
     </div>
   );

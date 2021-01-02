@@ -18,6 +18,8 @@ import useInputs from './useInputs';
 import ContextSample from './ContextSample';
 import UserListContext from './UserListContext';
 import produce from 'immer'; //immer은 보통 produce라고 불린다.
+import HelloClassComponent from './HelloClassComponent';
+import CounterClassComponent from './CounterClassComponent';
 
 const initialState = { //App 컴포넌트를 useReducer 로 구현하기
   inputs: {
@@ -423,6 +425,12 @@ function App() {
 
       <>
       {/* Immer 를 사용한 더 쉬운 불변성 관리 */}
+      </>
+
+      <>
+      {/* 클래스형 컴포넌트 */}
+      <HelloClassComponent name="react" isSpecial />
+      <CounterClassComponent />
       </>
     </div>
   );

@@ -17,6 +17,7 @@ import CounterUseReducer from './CounterUseReducer';
 import useInputs from './useInputs';
 import ContextSample from './ContextSample';
 import UserListContext from './UserListContext';
+import produce from 'immer'; //immer은 보통 produce라고 불린다.
 
 const initialState = { //App 컴포넌트를 useReducer 로 구현하기
   inputs: {
@@ -78,6 +79,30 @@ function reducer(state, action) {
 
 //Context API를 통한 전역값 관리 : dispatch Context만들기
 export const UserDispatch = createContext(null);
+
+//Immer 사용하기
+window.produce = produce;//크롬브라우저의 콘솔 창에서 immer 사용가능하게 함
+function reducerImmer(state, action) {
+  switch (action.type) {
+    case 'CREATE_USER':
+      return produce(state, draft => {
+        draft.users.push(action.user);
+      });
+    case 'TOGGLE_USER':
+      return produce(state, draft => {
+        const user = draft.users.find(user => user.id === action.id); // id가 같은 유저를 찾아
+        user.active = !user.active; //값을 변형시킨다.
+      });
+    case 'REMOVE_USER':
+      return produce(state, draft => {
+        const index = draft.users.findIndex(user => user.id === action.id); // id가 같은 index를 찾아
+        draft.users.splice(index, 1); //index부터 1개를 없앤다.
+      });
+    default:
+      return state;
+  }
+}
+
 
 function App() {
   const name = 'react';
@@ -394,6 +419,10 @@ function App() {
         />
         <UserListContext users={state.users}/>
       </UserDispatch.Provider>
+      </>
+
+      <>
+      {/* Immer 를 사용한 더 쉬운 불변성 관리 */}
       </>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, {useRef, useState, useMemo, useCallback} from 'react';
+import React, {useRef, useState, useMemo, useCallback, useReducer} from 'react';
 import Hello from './Hello'; //상대경로(.js 생략가능)
 import HelloWithProps from './HelloProps';
 import './App.css';
@@ -13,6 +13,65 @@ import UserListUseRef from './UserListUseRef';
 import CreateUser from './CreateUser';
 import UserListArray from './UserListArray';
 import UserListUseEffect from './UserListUseEffect';
+import CounterUseReducer from './CounterUseReducer';
+
+const initialState = { //App 컴포넌트를 useReducer 로 구현하기
+  inputs: {
+    username: '',
+    email: ''
+  },
+  users: [
+    {
+      id: 1,
+      username: 'velopert',
+      email: 'public.velopert@gmail.com',
+      active: true
+    },
+    {
+      id: 2,
+      username: 'tester',
+      email: 'tester@example.com',
+      active: false
+    },
+    {
+      id: 3,
+      username: 'liz',
+      email: 'liz@example.com',
+      active: false
+    }
+  ]
+};
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CHANGE_INPUT':
+      return {
+        ...state, //불변성을 지키기 위해
+        inputs: {
+          ...state.inputs,
+          [action.name]: action.value
+        }
+      };
+    case 'CREATE_USER':
+      return {
+        inputs: initialState.inputs, //초기값으로 변환
+        users: state.users.concat(action.user) // 합치기
+      };
+    case 'TOGGLE_USER':
+      return {
+        ...state,
+        users: state.users.map(user =>
+          user.id === action.id ? { ...user, active: !user.active } : user
+        )
+      };
+    case 'REMOVE_USER':
+      return {
+        ...state,
+        users: state.users.filter(user => user.id !== action.id)
+      };
+    default:
+      return state;
+  }
+}
 
 function App() {
   const name = 'react';
@@ -126,6 +185,44 @@ function App() {
     ));
   }, []);
 
+
+  //useReducer 사용
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { usersUseReduce } = state;
+  const { usernameUseReduce, emailUseReduce } = state.inputs;
+  const onChangeUseReduce = useCallback(e => {
+    const { name, value } = e.target; //e에서 추출
+    dispatch({ // dispatch:어떻게 업데이트 할 것인지?
+      type: 'CHANGE_INPUT',
+      name,
+      value
+    });
+  }, []);
+  const onCreateUseReduce = useCallback(() => {
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        usernameUseReduce,
+        emailUseReduce
+      }
+    });
+    nextId.current += 1;
+  }, [usernameUseReduce, emailUseReduce]);
+  const onToggleUseReduce = useCallback(id => {
+    dispatch({
+      type: 'TOGGLE_USER',
+      id
+    });
+  }, []);
+
+  const onRemoveUseReduce = useCallback(id => {
+    dispatch({
+      type: 'REMOVE_USER',
+      id
+    });
+  }, []);
+
   return (
     <div>
       <>
@@ -225,6 +322,23 @@ function App() {
         onCreate={onCreateReactMemo}
       />
       <UserListUseEffect users={users} onRemove={onRemoveReactMemo} onToggle={onToggleReactMemo}/>
+      </>
+
+      <>
+      {/* useReducer 를 사용하여 상태 업데이트 로직 분리하기 */}
+      <CounterUseReducer />
+
+      {/* App 컴포넌트를 useReducer 로 구현하기 */}
+      <CreateUser 
+        username={usernameUseReduce} 
+        email={emailUseReduce} 
+        onChange={onChangeUseReduce} 
+        onCreate={onCreateUseReduce}
+      />
+      <UserListUseEffect users={state.users} onRemove={onRemoveUseReduce} onToggle={onToggleUseReduce}/>
+      {/* <UserListUseEffect users={usersUseReduce} onRemove={onRemoveUseReduce} onToggle={onToggleUseReduce}/> <= 이게 원래 정석인데 현재 코드에서는 안돌아감.. 너무 합쳐져 있어서 그럴수도*/}
+      
+
       </>
     </div>
   );

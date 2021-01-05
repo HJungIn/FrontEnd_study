@@ -11,17 +11,37 @@ $blue : #228be6; //scss에서 변수 선언시 $ 사용
     border: none;
     cursor: pointer; //커서가 포인트 모양으로 변형
   
-    height: 2.25rem; // rem : 현재 기본 브라우저 기본폰트사이즈에 대해  *기능을 함
     padding-left: 1rem;
     padding-right: 1rem;
-    font-size: 1rem;
-  
+    &.large{
+        height: 3rem; 
+        font-size: 1.25rem;
+    }
+
+    &.medium{
+        height: 2.25rem; // rem : 현재 기본 브라우저 기본폰트사이즈에 대해  *기능을 함
+        font-size: 1rem;
+    }
+
+    &.small{
+        height: 1.75rem; 
+        font-size: 0.875rem;
+    }
+
     background: $blue; // 위의 변수 사용
-    &:hover {
+    &:hover { //&는 자기 자신을 의미하는 것 ==> .Button:hover 과 같은 의미
       background: lighten($blue, 10%); // 색상 10% 밝게
     }
   
     &:active {
       background: darken($blue, 10%); // 색상 10% 어둡게
     }
+
+    // & + & { //이 스타일(.Button)과 이 스타일(.Button)이 같이 있으면 특정 스타일을 넣겠다. => 오른쪽에게 특정 스타일 넣는거
+    //     margin-left: 1rem;
+    // }
+  }
+
+  .Button + .Button { //이 스타일(.Button)과 이 스타일(.Button)이 같이 있으면 특정 스타일을 넣겠다. => 오른쪽에게 특정 스타일 넣는거
+    margin-left: 1rem;
   }

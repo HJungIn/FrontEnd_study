@@ -1,0 +1,27 @@
+$blue : #228be6; //scss에서 변수 선언시 $ 사용
+
+.Button {
+    display: inline-flex;
+    align-items: center; //중앙정렬1
+    justify-content: center; //중앙정렬2
+    color: white;
+    font-weight: bold;
+    outline: none;
+    border-radius: 4px; //둥글게
+    border: none;
+    cursor: pointer; //커서가 포인트 모양으로 변형
+  
+    height: 2.25rem; // rem : 현재 기본 브라우저 기본폰트사이즈에 대해  *기능을 함
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+  
+    background: $blue; // 위의 변수 사용
+    &:hover {
+      background: lighten($blue, 10%); // 색상 10% 밝게
+    }
+  
+    &:active {
+      background: darken($blue, 10%); // 색상 10% 어둡게
+    }
+  }

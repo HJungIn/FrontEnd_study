@@ -11,6 +11,16 @@ $pink : #f06595;
     &:active {
         background: darken($color, 10%); 
     }
+
+    &.outline { //outline이 true일 때=>적용되었을 때
+        color: $color;
+        background: none;
+        border: 1px solid $color;
+        &:hover {
+            background: $color;
+            color: white;
+        }
+    }
 }
 
 .Button {
@@ -75,6 +85,15 @@ $pink : #f06595;
         // background: darken($pink, 10%); 
         // }
         @include button-color($pink);
+    }
+
+    &.fullWidth {
+        width: 100%;
+        justify-content: center; //좌우 해서 가운데 정렬 => 이 프로퍼티는 flex일 때만 사용가능
+        & + & {
+            margin-left: 0;
+            margin-top: 1rem;
+        }
     }
 
     // & + & { //이 스타일(.Button)과 이 스타일(.Button)이 같이 있으면 특정 스타일을 넣겠다. => 오른쪽에게 특정 스타일 넣는거

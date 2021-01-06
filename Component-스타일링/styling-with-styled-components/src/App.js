@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled, { css, ThemeProvider } from 'styled-components'; //태그 템플릿을 사용하기 위해 css를 불러온다
 import Button from './components/Button';
+import Dialog from './components/Dialog';
 
 const Circle = styled.div`
   width: 5rem;
@@ -36,6 +37,19 @@ const ButtonGroup = styled.div`
 `;
 
 function App() {
+  const [dialog, setDialog] = useState(false);
+  const onClick = () => {
+    setDialog(true);
+  };
+  const onConfirm = () => {
+    console.log('확인');
+    setDialog(false);
+  };
+  const onCancel = () => {
+    console.log('취소');
+    setDialog(false);
+  };
+
   return (
     <div>
       <>
@@ -71,6 +85,23 @@ function App() {
           <Button color="pink" size="large" fullWidth>BUTTON</Button>
         </ButtonGroup>
       </AppBlock>
+
+      <>
+      <AppBlock>
+        <Button color="pink" size="large" onClick={onClick} >삭제</Button>
+      </AppBlock>
+      
+      <Dialog
+          title="정말로 삭제하시겠습니까?"
+          confirmText="삭제"
+          cancelText="취소"
+          visible={dialog}
+          onConfirm={onConfirm} 
+          onCancel={onCancel} 
+        >
+          데이터를 정말로 삭제하시겠습니까?
+        </Dialog>
+      </>
       </ThemeProvider>
       </>
     </div>

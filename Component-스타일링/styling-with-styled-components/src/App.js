@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components'; //태그 템플릿을 사용하기 위해 css를 불러온다
+import styled, { css, ThemeProvider } from 'styled-components'; //태그 템플릿을 사용하기 위해 css를 불러온다
 import Button from './components/Button';
 
 const Circle = styled.div`
@@ -23,6 +23,12 @@ const AppBlock = styled.div`
   padding: 1rem;
 `;
 
+const palette = {
+  blue: '#228be6',
+  gray: '#495057',
+  pink: '#f06595'
+}
+
 function App() {
   return (
     <div>
@@ -33,9 +39,13 @@ function App() {
 
       <>
       {/* 버튼 만들기 */}
+      <ThemeProvider theme={{palette}}>
       <AppBlock>
         <Button>BUTTON</Button>
+        <Button color="gray">BUTTON</Button>
+        <Button color="pink">BUTTON</Button>
       </AppBlock>
+      </ThemeProvider>
       </>
     </div>
   );

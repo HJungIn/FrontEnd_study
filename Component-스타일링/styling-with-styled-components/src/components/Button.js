@@ -13,6 +13,17 @@ const colorStyles = css` // 색상 부분을 바깥으로 꺼내서 사용하기
             &:active { 
                 background: ${darken(0.1, selected)};
             }
+            ${props =>
+                props.outline && //outline을 적용했다면
+                css`
+                color: ${selected};
+                background: none;
+                border: 1px solid ${selected};
+                &:hover {
+                    background: ${selected};
+                    color: white;
+                }
+            `}
         `;
     }}
 `;
@@ -64,6 +75,19 @@ const sizeStyles = css`
   } */
 `;
 
+const fullWidthStyle = css`
+  ${props =>
+    props.fullWidth &&
+    css`
+      width: 100%;
+      justify-content: center; //센터 정렬
+      & + & {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    `}
+`;
+
 const StyledButton = styled.button`
   /* 공통 스타일 */
   display: inline-flex;
@@ -109,7 +133,7 @@ const StyledButton = styled.button`
   /* 색상 */
   ${colorStyles} // 바깥으로 꺼냈을 때 바로 사용할 수 있도록 함 => 분리가능
 
-    ${({ theme, color }) => {
+    /* ${({ theme, color }) => {
         // const color = props.theme.palette.[props.color]; // =>이건 ${props => {... }}이렇게 props 전체르 가져올 때 사용
         const selected = theme.palette[color];
         return css`
@@ -121,7 +145,7 @@ const StyledButton = styled.button`
                 background: ${darken(0.1, selected)};
             }
         `;
-    }}
+    }} */
 
   /* background: #228be6; */
 //  background: ${props => props.theme.palette.blue};
@@ -140,10 +164,12 @@ const StyledButton = styled.button`
   & + & {
     margin-left: 1rem;
   }
+
+  ${fullWidthStyle} //위의 설정들을 덮어씌우기 위해 아래에 넣기
 `;
 
-function Button({ children, color, size, ...rest }) {
-  return <StyledButton color={color} size={size} {...rest}>{children}</StyledButton>;
+function Button({ children, color, size, outline, fullWidth, ...rest }) {
+  return <StyledButton color={color} size={size} outline={outline} fullWidth={fullWidth} {...rest}>{children}</StyledButton>;
 }
 
 Button.defaultProps = {

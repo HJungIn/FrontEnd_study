@@ -12,14 +12,15 @@ const TodoListBlock = styled.div`
 `;
 
 function TodoList() {
-    const state = useTodoState(); // TodoContext.js의 custom hook을 바로 가져와서 쓸 수 있다.
-    console.log(state);
-  return <TodoListBlock>
-      <TodoItem text="프로젝트 생성하기" done />
-      <TodoItem text="컴포넌트 스타일링 하기" done={true} />
-      <TodoItem text="Context 만들기" />
-      <TodoItem text="기능 구현하기" done={false} />
-  </TodoListBlock>;
+    const todos = useTodoState(); // TodoContext.js의 custom hook을 바로 가져와서 쓸 수 있다.
+    console.log(todos);
+  return (
+    <TodoListBlock>
+      {todos.map(
+        todo => <TodoItem key={todo.id} id={todo.id} text={todo.text} done={todo.done} /> //todo를 TodoItem으로 변환해주기
+      )}
+    </TodoListBlock>
+  );
 }
 
 export default TodoList;

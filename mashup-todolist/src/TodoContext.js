@@ -25,7 +25,7 @@ const initialTodos = [
 
 /*
     CREATE : 새 항목 추가
-    TOGGLE : 껏다 켰다
+    TOGGLE : 체크 버튼을 껏다 켰다
     REMOVE : 지우기
 */
 function todoReducer(state, action){

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import TodoItem from './TodoItem';
 
 const TodoListBlock = styled.div`
   flex: 1; // 자신이 차지할 수 있는 모든영역을 차지할 수 있다. 
@@ -10,7 +11,12 @@ const TodoListBlock = styled.div`
 `;
 
 function TodoList() {
-  return <TodoListBlock>TodoList</TodoListBlock>;
+  return <TodoListBlock>
+      <TodoItem text="프로젝트 생성하기" done />
+      <TodoItem text="컴포넌트 스타일링 하기" done={true} />
+      <TodoItem text="Context 만들기" />
+      <TodoItem text="기능 구현하기" done={false} />
+  </TodoListBlock>;
 }
 
 export default TodoList;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; //열고 닫기 위해서 상태관리 필요
 import styled, { css } from 'styled-components';
 import { MdAdd } from 'react-icons/md'; //더하기 모양 아이콘
+import { useTodoNextId } from '../TodoContext';
 
 const CircleButton = styled.button`
   background: #38d9a9; //초록
@@ -77,8 +78,10 @@ const Input = styled.input` //어떤 내용을 넣을 건지
 
 function TodoCreate() {
   const [open, setOpen] = useState(false);
-
   const onToggle = () => setOpen(!open); // 기존의 값을 반전시켜줌
+
+//   const nextId = useTodoNextId(); // TodoContext.js의 custom hook을 바로 가져와서 쓸 수 있다.
+//   nextId.current += 1;
 
   return (
     <>

@@ -2,6 +2,7 @@ import React from 'react';
 import Users from './User';
 import UsersUseAsync from './UsersUseAsync';
 import UsersUseReduce from './UsersUseReduce';
+import UsersReactAsync from './UsersReactAsync';
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
 
       {/* useAsync 커스텀 Hook 만들어서 사용하기 */}
       <UsersUseAsync />
+
+      {/* react-async 라이브러리를 이용해 요청 상태 관리하기*/}
+      <UsersReactAsync />
     </>
   );
 }

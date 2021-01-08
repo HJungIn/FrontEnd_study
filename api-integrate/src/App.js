@@ -3,6 +3,8 @@ import Users from './User';
 import UsersUseAsync from './UsersUseAsync';
 import UsersUseReduce from './UsersUseReduce';
 import UsersReactAsync from './UsersReactAsync';
+import { UsersProvider } from './UsersContext';
+import UsersForContext from './UsersForContext';
 
 function App() {
   return (
@@ -18,6 +20,11 @@ function App() {
 
       {/* react-async 라이브러리를 이용해 요청 상태 관리하기*/}
       <UsersReactAsync />
+
+      {/* Context와 함께 사용하기 ex)현재 로그인된 사용자의 정보 etc */}
+      <UsersProvider >
+        <UsersForContext />
+      </UsersProvider>
     </>
   );
 }

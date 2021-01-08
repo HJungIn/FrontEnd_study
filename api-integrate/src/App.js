@@ -5,6 +5,7 @@ import UsersUseReduce from './UsersUseReduce';
 import UsersReactAsync from './UsersReactAsync';
 import { UsersProvider } from './UsersContext';
 import UsersForContext from './UsersForContext';
+// import { UsersProvider } from './UsersContextRefactoring'; //리팩토링 시 사용할 UsersProvider
 
 function App() {
   return (
@@ -25,6 +26,11 @@ function App() {
       <UsersProvider >
         <UsersForContext />
       </UsersProvider>
+
+      {/* Context와 함께 사용하기 -> 근데 이를 리팩토링 하여 사용하기
+      <UsersProvider > ==> UserContextRedactoring.js에 있는 UsersProvider
+        <UsersForContext />
+      </UsersProvider> */}
     </>
   );
 }

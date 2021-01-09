@@ -69,6 +69,9 @@ const App = () => {
           )}
         />
       </Switch>
+
+      {/* NavLink */}
+      {/* Profiles.js 에서 Link대신에 사용해보았다. */}
       </>
     </div>
   );

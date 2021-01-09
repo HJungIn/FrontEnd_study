@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom'; // Route : 특정 주소에 특�
 import About from './About';
 import Home from './Home';
 import Profile from './Profile';
+import Profiles from './Profiles';
 
 const App = () => {
   return (
@@ -17,6 +18,9 @@ const App = () => {
         <li>
           <Link to="/about">소개</Link>
         </li>
+        <li>
+          <Link to="/profiles">프로필 목록</Link> {/* 서브라우트에서 사용 */}
+        </li>
       </ul>
 
       <hr />
@@ -29,6 +33,11 @@ const App = () => {
       {/* 파라미터와 쿼리 */}
       <Route path="/profiles/:username" component={Profile} /> {/* URL 파라미터 */}
       {/* <Route path="/about" component={About} /> */} {/* 쿼리는 About 컴포넌트에 설정 */}
+      </>
+
+      <>
+      {/* 서브 라우트 */}
+      <Route path="/profiles" component={Profiles} />
       </>
     </div>
   );

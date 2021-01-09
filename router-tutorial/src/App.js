@@ -5,6 +5,7 @@ import HistorySample from './HistorySample';
 import Home from './Home';
 import Profile from './Profile';
 import Profiles from './Profiles';
+import RouterHookSample from './RouterHookSample';
 import WithRouterSample from './WithRouterSample';
 
 const App = () => {
@@ -70,8 +71,13 @@ const App = () => {
         />
       </Switch>
 
-      {/* NavLink */}
+      {/* 4. NavLink */}
       {/* Profiles.js 에서 Link대신에 사용해보았다. */}
+      </>
+
+      <>
+      {/* useReactRouter Hook 사용  */}
+      <RouterHookSample />
       </>
     </div>
   );

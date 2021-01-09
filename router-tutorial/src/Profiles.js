@@ -2,6 +2,7 @@ import React from 'react';
 // import { Link, Route } from 'react-router-dom';
 import { NavLink, Route } from 'react-router-dom'; //link 대신에 NavLink 사용
 import Profile from './Profile';
+import RouterHookSample from './RouterHookSample';
 import WithRouterSample from './WithRouterSample';
 
 const Profiles = () => {
@@ -43,6 +44,9 @@ const Profiles = () => {
 
       {/* withRouter 사용 */}
       <WithRouterSample />
+
+      {/* useReactRouter Hook 사용 */}
+      <RouterHookSample />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import Profile from './Profile';
+import WithRouterSample from './WithRouterSample';
 
 const Profiles = () => {
   return (
@@ -21,6 +22,9 @@ const Profiles = () => {
         render={() => <div>사용자를 선택해주세요.</div>} //render에는 특정 컴포넌트를 안넣고 바로 함수형 컴포넌트를 선언해 넣어줄 수 있다.
       />
       <Route path="/profiles/:username" component={Profile} />
+
+      {/* withRouter 사용 */}
+      <WithRouterSample />
     </div>
   );
 };

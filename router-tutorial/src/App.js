@@ -5,6 +5,7 @@ import HistorySample from './HistorySample';
 import Home from './Home';
 import Profile from './Profile';
 import Profiles from './Profiles';
+import WithRouterSample from './WithRouterSample';
 
 const App = () => {
   return (
@@ -49,6 +50,9 @@ const App = () => {
       
       {/* 1. history 객체 */}
       <Route path="/history" component={HistorySample} />
+
+      {/* 2. withRouter */}
+      <WithRouterSample />
       </>
     </div>
   );

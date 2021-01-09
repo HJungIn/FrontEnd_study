@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom'; // Route : 특정 주소에 특정 컴포넌트를 보여주겠다. || Link : 특정 링크를 눌렀을 때 다른 경로로 가고싶을 때 사용하는 컴포넌트 (a태그 사용x)
+import { Route, Link, Switch } from 'react-router-dom'; // Route : 특정 주소에 특정 컴포넌트를 보여주겠다. || Link : 특정 링크를 눌렀을 때 다른 경로로 가고싶을 때 사용하는 컴포넌트 (a태그 사용x) || Switch : 규칙이 일치하는 라우트 단 하나만을 렌더링
 import About from './About';
 import HistorySample from './HistorySample';
 import Home from './Home';
@@ -53,6 +53,22 @@ const App = () => {
 
       {/* 2. withRouter */}
       <WithRouterSample />
+
+      {/* 3. Switch : 페이지를 못찾았을 때 유용 */}
+      <Switch>{/* 매칭되는 맨위의 하나만 보여줌 -> 그러다가 못찾으면 맨 아래까지 가서 not found 컴포넌트 출력 */}
+        <Route path="/" exact={true} component={Home} /> 
+        <Route path="/about" component={About} />
+        <Route path="/profiles" component={Profiles} />
+        <Route path="/history" component={HistorySample} />
+        <Route
+          render={({ location }) => ( // path 를 따로 정의하지 않으면 모든 상황에 렌더링됨
+            <div>
+              <h2>이 페이지는 존재하지 않습니다:</h2>
+              <p>{location.pathname}</p>
+            </div>
+          )}
+        />
+      </Switch>
       </>
     </div>
   );

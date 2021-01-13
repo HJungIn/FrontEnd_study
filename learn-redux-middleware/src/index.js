@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware  } from 'redux'; //applyMiddleware로 미들웨어 적용하기
 import { Provider } from 'react-redux'; //리덕스 사용하기
 import rootReducer from './modules';
+import myLogger from './middlewares/myLogger';
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(myLogger));  //applyMiddleware로 미들웨어 적용하기
 
 ReactDOM.render(
   <Provider store={store}>

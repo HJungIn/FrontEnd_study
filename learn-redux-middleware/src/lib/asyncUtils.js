@@ -47,3 +47,29 @@ export const createPromiseThunk = (type, promiseCreator) => { // type : 요청�
       error
     })
   };
+
+// 비동기 관련 액션들을 처리하는 리듀서를 만들어줍니다.
+export const handleAsyncActions = (type, key) => { // type 은 액션의 타입, key 는 상태의 key (예: posts, post)
+    const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+    return (state, action) => { //3가지 액션에 대한 리듀서
+      switch (action.type) {
+        case type:
+          return {
+            ...state,
+            [key]: reducerUtils.loading()
+          };
+        case SUCCESS:
+          return {
+            ...state,
+            [key]: reducerUtils.success(action.payload)
+          };
+        case ERROR:
+          return {
+            ...state,
+            [key]: reducerUtils.error(action.payload)
+          };
+        default:
+          return state;
+      }
+    };
+  };

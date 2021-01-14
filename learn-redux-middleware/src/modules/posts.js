@@ -1,4 +1,5 @@
 import * as postsAPI from '../api/posts'; // api/posts 안의 함수 모두 불러오기
+import { handleAsyncActions } from '../lib/asyncUtils';
 
 /* 1. 액션 타입 */
 //Api 요청시 각 api마다 3개의 액션을 만든다고 생각하면 됨 : 시작, 성공, 실패
@@ -55,6 +56,10 @@ const initialState = {
   posts: reducerUtils.initial(),
   post: reducerUtils.initial()
 };
+
+//handleAsyncActions 사용하기
+const getPostsReducer = handleAsyncActions(GET_POSTS, 'posts');
+const getPostReducer = handleAsyncActions(GET_POST, 'post');
 
 /* 3. 리듀서에서 액션에 따라 로딩중, 결과, 에러 상태를 변경 */
 export default function posts(state = initialState, action) { 
@@ -119,37 +124,52 @@ export default function posts(state = initialState, action) {
 //   }
 
   /* 리덕스 모듈 리팩토링 */
+//   switch (action.type) {
+//     case GET_POSTS:
+//       return {
+//         ...state,
+//         posts: reducerUtils.loading() //나중에 값을 유지하고다면 posts: reducerUtils.loading(state.posts.data)
+//       };
+//     case GET_POSTS_SUCCESS:
+//       return {
+//         ...state,
+//         posts: reducerUtils.success(action.payload)
+//       };
+//     case GET_POSTS_ERROR:
+//       return {
+//         ...state,
+//         posts: reducerUtils.error(action.payload)
+//       };
+//     case GET_POST:
+//       return {
+//         ...state,
+//         post: reducerUtils.loading()
+//       };
+//     case GET_POST_SUCCESS:
+//       return {
+//         ...state,
+//         post: reducerUtils.success(action.payload)
+//       };
+//     case GET_POST_ERROR:
+//       return {
+//         ...state,
+//         post: reducerUtils.error(action.payload)
+//       };
+//     default:
+//       return state;
+//   }
+
+  /* handleAsyncActions를 사용한 리팩토링 */
   switch (action.type) {
     case GET_POSTS:
-      return {
-        ...state,
-        posts: reducerUtils.loading() //나중에 값을 유지하고다면 posts: reducerUtils.loading(state.posts.data)
-      };
     case GET_POSTS_SUCCESS:
-      return {
-        ...state,
-        posts: reducerUtils.success(action.payload)
-      };
     case GET_POSTS_ERROR:
-      return {
-        ...state,
-        posts: reducerUtils.error(action.payload)
-      };
+        return getPostsReducer(state, action); //위 3개의 옵션중 하나라면 이함수 실행
+
     case GET_POST:
-      return {
-        ...state,
-        post: reducerUtils.loading()
-      };
     case GET_POST_SUCCESS:
-      return {
-        ...state,
-        post: reducerUtils.success(action.payload)
-      };
     case GET_POST_ERROR:
-      return {
-        ...state,
-        post: reducerUtils.error(action.payload)
-      };
+        return getPostReducer(state, action);
     default:
       return state;
   }

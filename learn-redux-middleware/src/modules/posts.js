@@ -37,75 +37,113 @@ export const getPost = id => async dispatch => {
 };
 
 const initialState = {
-  posts: {
-    loading: false,
-    data: null,
-    error: null
-  },
-  post: {
-    loading: false,
-    data: null,
-    error: null
-  }
+//   posts: {
+//     loading: false,
+//     data: null,
+//     error: null
+//   },
+//   post: {
+//     loading: false,
+//     data: null,
+//     error: null
+//   }
+  posts: reducerUtils.initial(),
+  post: reducerUtils.initial()
 };
 
 /* 3. 리듀서에서 액션에 따라 로딩중, 결과, 에러 상태를 변경 */
 export default function posts(state = initialState, action) { 
+//   switch (action.type) {
+//     case GET_POSTS:
+//       return {
+//         ...state,
+//         posts: {
+//           loading: true,
+//           data: null,
+//           error: null
+//         }
+//       };
+//     case GET_POSTS_SUCCESS:
+//       return {
+//         ...state,
+//         posts: {
+//           loading: false,
+//           data: action.posts,
+//           error: null
+//         }
+//       };
+//     case GET_POSTS_ERROR:
+//       return {
+//         ...state,
+//         posts: {
+//           loading: false,
+//           data: null,
+//           error: action.error
+//         }
+//       };
+
+//     case GET_POST:
+//       return {
+//         ...state,
+//         post: {
+//           loading: true,
+//           data: null,
+//           error: null
+//         }
+//       };
+//     case GET_POST_SUCCESS:
+//       return {
+//         ...state,
+//         post: {
+//           loading: false,
+//           data: action.post,
+//           error: null
+//         }
+//       };
+//     case GET_POST_ERROR:
+//       return {
+//         ...state,
+//         post: {
+//           loading: false,
+//           data: null,
+//           error: action.error
+//         }
+//       };
+//     default:
+//       return state;
+//   }
+
+  /* 리덕스 모듈 리팩토링 */
   switch (action.type) {
     case GET_POSTS:
       return {
         ...state,
-        posts: {
-          loading: true,
-          data: null,
-          error: null
-        }
+        posts: reducerUtils.loading() //나중에 값을 유지하고다면 posts: reducerUtils.loading(state.posts.data)
       };
     case GET_POSTS_SUCCESS:
       return {
         ...state,
-        posts: {
-          loading: false,
-          data: action.posts,
-          error: null
-        }
+        posts: reducerUtils.success(action.posts)
       };
     case GET_POSTS_ERROR:
       return {
         ...state,
-        posts: {
-          loading: false,
-          data: null,
-          error: action.error
-        }
+        posts: reducerUtils.error(action.error)
       };
-
     case GET_POST:
       return {
         ...state,
-        post: {
-          loading: true,
-          data: null,
-          error: null
-        }
+        post: reducerUtils.loading()
       };
     case GET_POST_SUCCESS:
       return {
         ...state,
-        post: {
-          loading: false,
-          data: action.post,
-          error: null
-        }
+        post: reducerUtils.success(action.post)
       };
     case GET_POST_ERROR:
       return {
         ...state,
-        post: {
-          loading: false,
-          data: null,
-          error: action.error
-        }
+        post: reducerUtils.error(action.error)
       };
     default:
       return state;

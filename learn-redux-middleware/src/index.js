@@ -9,11 +9,15 @@ import rootReducer from './modules';
 import myLogger from './middlewares/myLogger';
 import logger from 'redux-logger'; //redux-logger 사용하기
 import {composeWithDevTools} from 'redux-devtools-extension'; //devtools와 미들웨어 같이 쓰기
+import ReduxThunk from 'redux-thunk'; //redux-thunk 사용
 
 // const store = createStore(rootReducer, applyMiddleware(myLogger));  //applyMiddleware로 미들웨어 적용하기
 // const store = createStore(rootReducer, applyMiddleware(myLogger, logger)); //이렇게 하면 myLogger가 첫번째 미들웨어, logger가 두번째 미들웨어
 // const store = createStore(rootReducer, applyMiddleware(logger)); //이렇게만으로 사용 가능
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger))); // devtools와 미들웨어 같이 쓰기
+const store = createStore(
+  rootReducer, 
+  composeWithDevTools(applyMiddleware(ReduxThunk, logger)) //logger가 맨 뒤로 오도록 함
+); // devtools와 미들웨어 같이 쓰기
 
 ReactDOM.render(
   <Provider store={store}>

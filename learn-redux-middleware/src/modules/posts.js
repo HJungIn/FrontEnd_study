@@ -1,5 +1,5 @@
 import * as postsAPI from '../api/posts'; // api/posts 안의 함수 모두 불러오기
-import { handleAsyncActions } from '../lib/asyncUtils';
+import { createPromiseThunk, handleAsyncActions, reducerUtils } from '../lib/asyncUtils';
 
 /* 1. 액션 타입 */
 //Api 요청시 각 api마다 3개의 액션을 만든다고 생각하면 됨 : 시작, 성공, 실패

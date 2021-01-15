@@ -19,6 +19,23 @@ export const createPromiseThunk = (type, promiseCreator) => { // type : 요청�
     };
   };
   
+  //포스트 데이터 상태 구조 바꾸기 후 thunk함수 리팩토링
+  const defaultIdSelector = param => param; //파라미터 자체가 id이다
+  export const createPromiseThunkById = (type, promiseCreator, idSelector = defaultIdSelector) => { //idSelector : api를 사용하는 용도의 파라미터로 id를 어떻게 선택 할 지 정의해주는 함수
+    const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  
+    return param => async dispatch => {
+      const id = idSelector(param);
+      dispatch({ type, meta:id }); 
+      try {
+        const payload = await promiseCreator(param);
+        dispatch({ type: SUCCESS, payload, meta:id }); // 성공
+      } catch (e) {
+        dispatch({ type: ERROR, payload: e, error: true, meta:id }); // 실패
+      }
+    };
+  }
+
   
   // 리듀서에서 사용 할 수 있는 여러 유틸 함수들입니다.
   export const reducerUtils = {
@@ -73,3 +90,39 @@ export const handleAsyncActions = (type, key, keepData) => { // type 은 액션�
       }
     };
   };
+
+//포스트 데이터 상태 구조 바꾸기 후 리듀서 리팩토링 
+export const handleAsyncActionsById = (type, key, keepData) => { 
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return (state, action) => {
+    const id = action.meta; //id값을 참조해서 [key]값을 바로 업데이트 하는게 아니라 key안에 있는 id 객체를 업데이트 해준다. 
+    switch (action.type) {
+      case type:
+        return {
+          ...state,
+          [key]: {
+            ...state[key],
+            [id]: reducerUtils.loading(keepData ? (state[key][id] && state[key][id].data) : null) //undefined때 에러방지
+          }
+        };
+      case SUCCESS:
+        return {
+          ...state,
+          [key]: {
+            ...state[key],
+            [id]: reducerUtils.success(action.payload)
+          }
+        };
+      case ERROR:
+        return {
+          ...state,
+          [key]: {
+            ...state[key],
+            [id]: reducerUtils.error(action.payload)
+          }
+        };
+      default:
+        return state;
+    }
+  };
+};

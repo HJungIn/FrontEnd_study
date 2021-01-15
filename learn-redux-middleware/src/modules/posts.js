@@ -1,5 +1,5 @@
 import * as postsAPI from '../api/posts'; // api/posts 안의 함수 모두 불러오기
-import { createPromiseThunk, handleAsyncActions, reducerUtils } from '../lib/asyncUtils';
+import { createPromiseThunk, createPromiseThunkById, handleAsyncActions, handleAsyncActionsById, reducerUtils } from '../lib/asyncUtils';
 
 /* 1. 액션 타입 */
 //Api 요청시 각 api마다 3개의 액션을 만든다고 생각하면 됨 : 시작, 성공, 실패
@@ -43,20 +43,21 @@ const CLEAR_POST = 'CLEAR_POST';
 //createPromiseThunk 사용해서 thunk함수 만들기 -> 최적화 한 것
 export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts);
 // export const getPost = createPromiseThunk(GET_POST, postsAPI.getPostById);
-export const getPost = id => async dispatch => { // 포스트 데이터 상태 구조 바꾸기 =>post의 thunk함수
-  dispatch({type: GET_POST, meta:id}); //리듀서에서 이 id 값을 참고해서 상태 업데이트
-  try{
-    const payload = await postsAPI.getPostById(id);
-    dispatch({type:GET_POST_SUCCESS, payload, meta:id})
-  } catch (e){
-    dispatch({
-      type: GET_POST_ERROR,
-      payload:e,
-      error: true,
-      meta: id
-    })
-  }
-}
+// export const getPost = id => async dispatch => { // 포스트 데이터 상태 구조 바꾸기 =>post의 thunk함수
+//   dispatch({type: GET_POST, meta:id}); //리듀서에서 이 id 값을 참고해서 상태 업데이트
+//   try{
+//     const payload = await postsAPI.getPostById(id);
+//     dispatch({type:GET_POST_SUCCESS, payload, meta:id})
+//   } catch (e){
+//     dispatch({
+//       type: GET_POST_ERROR,
+//       payload:e,
+//       error: true,
+//       meta: id
+//     })
+//   }
+// }
+export const getPost = createPromiseThunkById(GET_POST, postsAPI.getPostById); // 포스트 데이터 상태 구조 바꾸기 후 리팩토링
 export const clearPost = () => ({type:CLEAR_POST});
 
 const initialState = {
@@ -78,37 +79,39 @@ const initialState = {
 //handleAsyncActions 사용하기
 const getPostsReducer = handleAsyncActions(GET_POSTS, 'posts', true);
 // const getPostReducer = handleAsyncActions(GET_POST, 'post');
-const getPostReducer = (state, action) =>{// 포스트 데이터 상태 구조 바꾸기 - 리듀서 직접 작성
-  const id = action.meta;
-  switch(action.type){
-    case GET_POST:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          [id]: reducerUtils.loading(state.post[id] && state.post[id].data) // undefined일때의 오류를 막기 위해
-        }
-      };
-    case GET_POST_SUCCESS:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          [id]: reducerUtils.success(action.payload)
-        }
-      };
-    case GET_POST_ERROR:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          [id]: reducerUtils.error(action.payload)
-        }
-      };    
-    default:
-      return state;
-  }
-}
+// const getPostReducer = (state, action) =>{// 포스트 데이터 상태 구조 바꾸기 - 리듀서 직접 작성
+//   const id = action.meta;
+//   switch(action.type){
+//     case GET_POST:
+//       return {
+//         ...state,
+//         post: {
+//           ...state.post,
+//           [id]: reducerUtils.loading(state.post[id] && state.post[id].data) // undefined일때의 오류를 막기 위해
+//         }
+//       };
+//     case GET_POST_SUCCESS:
+//       return {
+//         ...state,
+//         post: {
+//           ...state.post,
+//           [id]: reducerUtils.success(action.payload)
+//         }
+//       };
+//     case GET_POST_ERROR:
+//       return {
+//         ...state,
+//         post: {
+//           ...state.post,
+//           [id]: reducerUtils.error(action.payload)
+//         }
+//       };    
+//     default:
+//       return state;
+//   }
+// }
+// 포스트 데이터 상태 구조 바꾸기 후 리팩토링
+const getPostReducer = handleAsyncActionsById(GET_POST, 'post', true);
 
 /* 3. 리듀서에서 액션에 따라 로딩중, 결과, 에러 상태를 변경 */
 export default function posts(state = initialState, action) { 

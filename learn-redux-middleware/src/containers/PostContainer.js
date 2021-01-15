@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPost } from '../modules/posts';
+import { clearPost, getPost } from '../modules/posts';
 import Post from '../components/Post';
 
 function PostContainer({ postId }) { //라우터를 통해 받아올 것임
@@ -9,6 +9,10 @@ function PostContainer({ postId }) { //라우터를 통해 받아올 것임
 
   useEffect(() => {
     dispatch(getPost(postId));
+    return () => { // cleanup 함수
+      dispatch(clearPost());
+    }
+
   }, [postId, dispatch]);
 
   if (loading) return <div>로딩중...</div>;

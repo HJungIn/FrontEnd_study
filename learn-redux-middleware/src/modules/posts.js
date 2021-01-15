@@ -13,6 +13,9 @@ const GET_POST = 'GET_POST';
 const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 const GET_POST_ERROR = 'GET_POST_ERROR';
 
+//포스트 페이지에서 벗어날 때 post의 상태를 초기화 시키기 위한 액션
+const CLEAR_POST = 'CLEAR_POST';
+
 /* 2. 각 프로미스마다 thunk 함수를 만들어주어야 합니다 */
 // // thunk 를 사용 할 때, 꼭 모든 액션들에 대하여 액션 생성함수를 만들 필요는 없습니다.
 // // 그냥 thunk 함수에서 바로 액션 객체를 만들어주어도 괜찮습니다.
@@ -40,7 +43,7 @@ const GET_POST_ERROR = 'GET_POST_ERROR';
 //createPromiseThunk 사용해서 thunk함수 만들기 -> 최적화 한 것
 export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts);
 export const getPost = createPromiseThunk(GET_POST, postsAPI.getPostById);
-
+export const clearPost = () => ({type:CLEAR_POST});
 
 const initialState = {
 //   posts: {
@@ -58,7 +61,7 @@ const initialState = {
 };
 
 //handleAsyncActions 사용하기
-const getPostsReducer = handleAsyncActions(GET_POSTS, 'posts');
+const getPostsReducer = handleAsyncActions(GET_POSTS, 'posts', true);
 const getPostReducer = handleAsyncActions(GET_POST, 'post');
 
 /* 3. 리듀서에서 액션에 따라 로딩중, 결과, 에러 상태를 변경 */
@@ -170,6 +173,11 @@ export default function posts(state = initialState, action) {
     case GET_POST_SUCCESS:
     case GET_POST_ERROR:
         return getPostReducer(state, action);
+    case CLEAR_POST:
+        return {
+          ...state,
+          post: reducerUtils.initial()
+        };    
     default:
       return state;
   }

@@ -10,22 +10,31 @@ import myLogger from './middlewares/myLogger';
 import logger from 'redux-logger'; //redux-logger 사용하기
 import {composeWithDevTools} from 'redux-devtools-extension'; //devtools와 미들웨어 같이 쓰기
 import ReduxThunk from 'redux-thunk'; //redux-thunk 사용
-import { BrowserRouter } from 'react-router-dom'; //리액트 라우터 사용
+import { BrowserRouter, Router } from 'react-router-dom'; //리액트 라우터 사용
+import {createBrowserHistory} from 'history';
+
+const customHistory = createBrowserHistory();
 
 // const store = createStore(rootReducer, applyMiddleware(myLogger));  //applyMiddleware로 미들웨어 적용하기
 // const store = createStore(rootReducer, applyMiddleware(myLogger, logger)); //이렇게 하면 myLogger가 첫번째 미들웨어, logger가 두번째 미들웨어
 // const store = createStore(rootReducer, applyMiddleware(logger)); //이렇게만으로 사용 가능
-const store = createStore(
+// const store = createStore(
+//   rootReducer, 
+//   composeWithDevTools(applyMiddleware(ReduxThunk, logger)) //logger가 맨 뒤로 오도록 함
+// ); // devtools와 미들웨어 같이 쓰기
+const store = createStore( //라우터를 통해 history사용할 시
   rootReducer, 
-  composeWithDevTools(applyMiddleware(ReduxThunk, logger)) //logger가 맨 뒤로 오도록 함
-); // devtools와 미들웨어 같이 쓰기
+  composeWithDevTools(applyMiddleware(ReduxThunk.withExtraArgument({history: customHistory}), logger))
+);
 
 ReactDOM.render(
-  <BrowserRouter>
+  // <BrowserRouter>
+  <Router history={customHistory}>
     <Provider store={store}>
       <App />
     </Provider>
-  </BrowserRouter>,
+  </Router>,
+  // </BrowserRouter>,
   document.getElementById('root')
 );
 

@@ -59,6 +59,9 @@ export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts);
 // }
 export const getPost = createPromiseThunkById(GET_POST, postsAPI.getPostById); // 포스트 데이터 상태 구조 바꾸기 후 리팩토링
 export const clearPost = () => ({type:CLEAR_POST});
+export const goToHome = () => (dispatch, getState, {history}) =>{
+  history.push('/');
+};
 
 const initialState = {
 //   posts: {

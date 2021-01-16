@@ -1,6 +1,6 @@
 import * as postsAPI from '../api/posts'; // api/posts 안의 함수 모두 불러오기
 import { createPromiseSaga, createPromiseSagaById, createPromiseThunk, createPromiseThunkById, handleAsyncActions, handleAsyncActionsById, reducerUtils } from '../lib/asyncUtils';
-import { call, getContext, put, takeEvery } from 'redux-saga/effects';
+import { call, getContext, put, takeEvery, select } from 'redux-saga/effects'; //리덕스 스토어가 지니고 있는 상태를 조회
 
 /* 1. 액션 타입 */
 //Api 요청시 각 api마다 3개의 액션을 만든다고 생각하면 됨 : 시작, 성공, 실패
@@ -17,6 +17,9 @@ const GET_POST_ERROR = 'GET_POST_ERROR';
 //포스트 페이지에서 벗어날 때 post의 상태를 초기화 시키기 위한 액션
 const CLEAR_POST = 'CLEAR_POST';
 const GO_TO_HOME = 'GO_TO_HOME';
+
+//리덕스 스토어가 지니고 있는 상태를 조회를 하기 위한 액션
+const PRINT_STATE = 'PRINT_STATE';
 
 /* 2. 각 프로미스마다 thunk 함수를 만들어주어야 합니다 */
 // // thunk 를 사용 할 때, 꼭 모든 액션들에 대하여 액션 생성함수를 만들 필요는 없습니다.
@@ -64,6 +67,9 @@ export const clearPost = () => ({type:CLEAR_POST});
 // export const goToHome = () => (dispatch, getState, {history}) =>{
 //   history.push('/');
 // };
+
+//saga를 이용해 현재 리덕스 스토어가 지니고 있는 상태를 조회하는 액션생성함수
+export const printState = () => ({type: PRINT_STATE});
 
 //saga를 이용하기
 export const goToHome = () => ({type: GO_TO_HOME });
@@ -119,11 +125,17 @@ function* goToHomeSaga() {
   history.push('/');
 }
 
+function* printStateSaga() {
+  const state = yield select(state => state.posts);
+  console.log(state);
+}
+
 // 사가들을 합치기 : 액션들을 모니터링 하는 사가
 export function* postsSaga() {
   yield takeEvery(GET_POSTS, getPostsSaga); // param1:액션타입, param2:실행하고 싶은 사가
   yield takeEvery(GET_POST, getPostSaga);
   yield takeEvery(GO_TO_HOME, goToHomeSaga);
+  yield takeEvery(PRINT_STATE, printStateSaga);
 }
 
 const initialState = {

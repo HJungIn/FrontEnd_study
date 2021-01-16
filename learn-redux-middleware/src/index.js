@@ -15,7 +15,12 @@ import {createBrowserHistory} from 'history';
 import createSagaMiddleware from 'redux-saga';
 
 const customHistory = createBrowserHistory();
-const sagaMiddleware = createSagaMiddleware(); // 사가 미들웨어를 만들기
+// const sagaMiddleware = createSagaMiddleware(); // 사가 미들웨어를 만들기
+const sagaMiddleware = createSagaMiddleware({ // 사가 내부에서 라우터 적용하기
+  context: { //이렇게 컨택스트에 등록한 것들은 사가에서 조회 가능함
+    history: customHistory
+  }
+});
 
 // const store = createStore(rootReducer, applyMiddleware(myLogger));  //applyMiddleware로 미들웨어 적용하기
 // const store = createStore(rootReducer, applyMiddleware(myLogger, logger)); //이렇게 하면 myLogger가 첫번째 미들웨어, logger가 두번째 미들웨어

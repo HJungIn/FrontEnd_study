@@ -10,6 +10,9 @@ function App() {
   // return <PostListContainer />;
   return(
     <>
+      {/* 사가 사용 */}
+      <CounterContainer />
+
       {/* 라우터 연동 */}
       <Route path="/" component={PostListPage} exact={true} />
       <Route path="/:id" component={PostPage} />

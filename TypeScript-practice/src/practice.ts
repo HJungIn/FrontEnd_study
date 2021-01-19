@@ -42,3 +42,96 @@ function returnNothing1(): string | number { //string 이거나 number
     console.log('어쩌고 저쩌고');
     return 1;
 }
+
+/* interface 사용해보기 */
+interface Shape {
+    getArea(): number;
+}
+
+class Circle implements Shape {
+    // radius: number;
+    // constructor(radius: number){ //생성자 만들기
+    //     this.radius = radius;
+    // }
+
+    constructor(private radius: number){ //자동생성 생성자 : private는 접근 불가, public은 접근 가능
+    }
+
+    getArea() {
+        return this.radius * this.radius * Math.PI;
+    }
+}
+
+class Rectangle implements Shape {
+    // width: number;
+    // height: number;
+    // constructor(width: number, height: number){
+    //     this.width = width;
+    //     this.height = height;
+    // }
+
+    constructor(private width: number, private height: number){
+    }
+
+    getArea(){
+        return this.width * this.height;
+    }
+}
+
+const circle = new Circle(5);
+const rectangle = new Rectangle(2,5);
+
+const shapes: Shape[] = [circle, rectangle];
+shapes.forEach(shape => {
+    console.log(shape.getArea()); 
+});
+
+/* 인터페이스를 사용해서 객체의 타입도 지정해 줄 수 있다. */
+interface Person {
+    name: string;
+    age?: number; // ? : age가 있을 수도 있고 없을 수도 있다.
+}
+
+// interface Developer {
+//     name: string;
+//     age?: number;
+//     skills: string[];
+// }
+interface Developer extends Person{ // 겹치는 부분은 extends
+    skills: string[];
+}
+
+const person: Person = {
+    name: '김사람',
+    age: 20
+};
+
+const expert: Developer = {
+    name: '김개발',
+    skills: ['js', 'react', 'ts']
+};
+
+/* Type Alias 사용하기 */
+type Person1 = {
+    name: string;
+    age?: number;
+}
+
+type Developer1 = Person & { //상속 : & 로 표시 
+    skills: string[];
+}
+
+const person1: Person = {
+    name: '김사람',
+    age: 20
+};
+
+const expert1: Developer = {
+    name: '김개발',
+    skills: ['js', 'react', 'ts']
+};
+
+type People = Person1[];
+const people: People = [person1, expert1];
+type Color = 'red' | 'orange' | 'yellow';
+const color1:Color = 'orange';

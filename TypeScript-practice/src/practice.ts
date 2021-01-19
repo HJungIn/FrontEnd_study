@@ -135,3 +135,66 @@ type People = Person1[];
 const people: People = [person1, expert1];
 type Color = 'red' | 'orange' | 'yellow';
 const color1:Color = 'orange';
+
+/* Generics 사용해보기 */
+//함수
+function merge<T1, T2>(a:T1, b:T2){
+    return {
+        ...a,
+        ...b //a와 b가 합쳐진 결과물
+    };
+}
+const merged = merge({foo:1}, {bar:2, foobar:3});
+
+function wrap<T>(param: T){ //타입이 지켜진다.
+    return {
+        param
+    };
+}
+const wrapped = wrap(10);
+
+//인터페이스
+interface Items<T>{
+    list: T[]
+};
+const items: Items<string> = {
+    list: ['a', 'b', 'c']
+};
+
+//type alias
+type Items1<T, V> = { // type alias로 해보기
+    list: T[];
+    value: V;
+};
+const items1: Items1<number, string> = {
+    list: [1,2,3],
+    value: 'a'
+};
+
+//class
+class Queue<T> {
+    list: T[] = [];
+
+    get length(){ //getter 함수
+        return this.list.length;
+    }
+
+    enqueue(item: T){
+        this.list.push(item);
+    }
+
+    dequeue(){
+        return this.list.shift();
+    }
+}
+
+const queue = new Queue<number>();
+queue.enqueue(0);
+queue.enqueue(1);
+queue.enqueue(2);
+queue.enqueue(3);
+queue.enqueue(4);
+
+while(queue.length > 0){
+    console.log(queue.dequeue());
+}

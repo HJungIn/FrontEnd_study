@@ -5,6 +5,8 @@ import Greetings_func from './Greetings';
 import Greetings from './Greetings';
 import MyForm from './MyForm';
 import ReducerSample from './ReducerSample';
+import { SampleProvider } from './SampleContext';
+import SampleReducer from './SampleReducer';
 
 const App: React.FC = () => {
   const onClick = (name: string) =>{
@@ -31,9 +33,14 @@ const App: React.FC = () => {
     {/* <MyForm onSubmit={onSubmit}/> */}
 
     {/* 카운터 만들기 - useReducer */}
-    <CounterUseReducer />
+    {/* <CounterUseReducer /> */}
     {/* 좀 더 까다로운 Reducer - useReducer */}
-    <ReducerSample />
+    {/* <ReducerSample /> */}
+
+    {/* 타입스크립트와 ContextAPI 활용하기 */}
+    <SampleProvider >
+      <SampleReducer />
+    </SampleProvider>
     </>
   );
 }

@@ -1,8 +1,10 @@
 import React from 'react';
 import Counter from './Counter';
+import CounterUseReducer from './CounterUseReducer';
 import Greetings_func from './Greetings';
 import Greetings from './Greetings';
 import MyForm from './MyForm';
+import ReducerSample from './ReducerSample';
 
 const App: React.FC = () => {
   const onClick = (name: string) =>{
@@ -24,10 +26,14 @@ const App: React.FC = () => {
 
     {/* 리액트 상태관리 */}
     {/* 카운터 만들기 - useState, 이벤트*/}
-    <Counter />
+    {/* <Counter /> */}
     {/* MyForm 만들기 - useState, 이벤트 */}
-    <MyForm onSubmit={onSubmit}/>
-    
+    {/* <MyForm onSubmit={onSubmit}/> */}
+
+    {/* 카운터 만들기 - useReducer */}
+    <CounterUseReducer />
+    {/* 좀 더 까다로운 Reducer - useReducer */}
+    <ReducerSample />
     </>
   );
 }

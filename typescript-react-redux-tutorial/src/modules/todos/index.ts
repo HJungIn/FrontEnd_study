@@ -1,5 +1,6 @@
-import {deprecated, createAction, ActionType, createReducer} from 'typesafe-actions';
+// import {deprecated, createAction, ActionType, createReducer} from 'typesafe-actions';
 // 액션 타입 선언
+/*
 const ADD_TODO = 'todos/ADD_TODO' as const;
 const TOGGLE_TODO = 'todos/TOGGLE_TODO'; // 할일을 껏다켰다
 const REMOVE_TODO = 'todos/REMOVE_TODO'; // 제거
@@ -35,7 +36,8 @@ export const addTodo = (text: string) => ({
 // );
 export const toggleTodo = deprecated.createStandardAction(TOGGLE_TODO)<number>();// number을 payload로 갖고 온다
 export const removeTodo = deprecated.createStandardAction(REMOVE_TODO)<number>();
-
+*/
+/*
 // 모든 액션 객체들에 대한 타입 준비 => 리팩토링
 const actions = {
     addTodo,
@@ -50,6 +52,7 @@ type TodosAction = ActionType<typeof actions>;
 //   | ReturnType<typeof toggleTodo>
 //   | ReturnType<typeof removeTodo>;
 
+
 // 상태에서 사용 할 할 일 항목 데이터 타입 정의 => 컴포넌트에서도 쓸거라 export
 export type Todo = {
   id: number;
@@ -59,7 +62,8 @@ export type Todo = {
 
 // 이 모듈에서 관리할 상태는 Todo 객체로 이루어진 배열
 export type TodosState = Todo[];
-
+*/
+/*
 // 초기 상태 선언
 const initialState: TodosState = [];
 
@@ -103,3 +107,8 @@ const todos = createReducer<TodosState, TodosAction>(initialState, {
   });
 
 export default todos;
+*/
+
+export { default } from './reducer'; // reducer 를 불러와서 default로 내보내겠다는 의미
+export * from './actions'; // 모든 액션 생성함수들을 불러와서 같은 이름들로 내보내겠다는 의미
+export * from './types'; // 모든 타입들을 불러와서 같은 이름들로 내보내겠다는 의미

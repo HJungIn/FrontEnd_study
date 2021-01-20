@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux'; //redux사용
+import { createStore } from 'redux'; // redux는 store만들기 필요
+import rootReducer from './modules';
+
+const store = createStore(rootReducer); //store만들기
 
 ReactDOM.render(
-  <React.StrictMode>
+  //Provider 사용
+  <Provider store={store}> 
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 

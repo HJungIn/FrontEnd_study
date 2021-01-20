@@ -1,25 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Greetings_func from './Greetings';
+import Greetings from './Greetings';
 
-function App() {
+const App: React.FC = () => {
+  const onClick = (name: string) =>{
+    console.log(name);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    {/* React.FC으로 기본값, 디폴트값 정할 때 */}
+    {/* <Greetings name="리액트"/> */}
+
+    {/* function으로 기본값, 디폴트값 정할 때 */}
+    <Greetings_func name="리액트" onClick={onClick}/>
+    </>
   );
 }
 

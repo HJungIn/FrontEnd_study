@@ -5,10 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux'; //redux사용
 import { createStore, applyMiddleware } from 'redux'; // redux는 store만들기 필요
-import rootReducer from './modules';
+import rootReducer, { rootSaga } from './modules';
 import Thunk from 'redux-thunk'; //Thunk 적용하기
+import createSagaMiddleware from 'redux-saga';
 
-const store = createStore(rootReducer, applyMiddleware(Thunk)); //store만들기
+const sagaMiddleware = createSagaMiddleware();
+
+// const store = createStore(rootReducer, applyMiddleware(Thunk)); //store만들기
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   //Provider 사용

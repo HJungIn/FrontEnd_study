@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux'; //redux사용
-import { createStore } from 'redux'; // redux는 store만들기 필요
+import { createStore, applyMiddleware } from 'redux'; // redux는 store만들기 필요
 import rootReducer from './modules';
+import Thunk from 'redux-thunk'; //Thunk 적용하기
 
-const store = createStore(rootReducer); //store만들기
+const store = createStore(rootReducer, applyMiddleware(Thunk)); //store만들기
 
 ReactDOM.render(
   //Provider 사용

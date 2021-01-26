@@ -10,8 +10,8 @@
         "rootDir": "src",
         "outDir": "dist",
         "target": "es6",
-        "sourceMap":true,
-        "removeComments": true
+        //"sourceMap":true,
+        //"removeComments": true
         // ,
         // "noImplicitAny": true
     }
